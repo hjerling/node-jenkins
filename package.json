@@ -1,0 +1,50 @@
+{
+  "name": "node-jenkins",
+  "version": "1.0.0",
+  "description": "A node API for the Jenkins CI build server",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "lint": "jshint ."
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:hjerling/node-jenkins.git"
+  },
+  "keywords": [
+    "Node",
+    "Jenkins",
+    "API"
+  ],
+  "author": "ken.tucky@aj.ax",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hjerling/node-jenkins/issues"
+  },
+  "homepage": "https://github.com/hjerling/node-jenkins",
+  "private": true,
+  "jshintConfig": {
+    "quotmark": "single",
+    "unused": true,
+    "undef": true,
+    "node": true,
+    "globals": {
+      "describe": false,
+      "it": false,
+      "before": false,
+      "beforeEach": false,
+      "after": false,
+      "afterEach": false
+    }
+  },
+  "dependencies": {
+    "request": "^2.54.0"
+  },
+  "devDependencies": {
+    "chai": "^2.1.2",
+    "nock": "^1.2.1"
+  }
+}
