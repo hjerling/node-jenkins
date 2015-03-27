@@ -14,7 +14,7 @@ describe('Jenkins', function () {
   });
 
   describe('lastBuildInfo', function () {
-    it('return json object for a build', function (done) {
+    it('return json object for the last build', function (done) {
       nock('http://jenkins.org').get('/job/job/lastBuild/api/json').reply(200, '{}');
       jenkins.lastBuildInfo('job', function (err, buildInfo) {
         assert.ifError(err);
@@ -54,7 +54,7 @@ describe('Jenkins', function () {
   });
 
   describe('jobInfo', function () {
-    it('return json object for a build', function (done) {
+    it('return information for a job as a json object', function (done) {
       nock('http://jenkins.org').get('/job/job/api/json').reply(200, '{}');
       jenkins.jobInfo('job', function (err, jobInfo) {
         assert.ifError(err);
@@ -88,6 +88,27 @@ describe('Jenkins', function () {
       jenkins.buildOutput('job', 1, function (err) {
         assert(err);
         assert.equal(err.message, 'Could not find build #1 for job: job');
+        done();
+      });
+    });
+  });
+
+  describe('build', function () {
+    it('return json object for a build', function (done) {
+      nock('http://jenkins.org').post('/job/job/build/api/json').reply(201, '{}');
+      jenkins.build('job', function (err, buildResponse) {
+        assert.ifError(err);
+        assert.equal(typeof buildResponse, 'object');
+        assert.equal(buildResponse.message, 'Build triggered for job: job');
+        done();
+      });
+    });
+
+    it('throws an error if jenkins returns a 404', function (done) {
+      nock('http://jenkins.org').post('/job/job/build/api/json').reply(404, '{}');
+      jenkins.build('job', function (err) {
+        assert(err);
+        assert.equal(err.message, 'Could not find job: job');
         done();
       });
     });
