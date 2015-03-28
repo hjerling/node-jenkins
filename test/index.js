@@ -114,6 +114,26 @@ describe('Jenkins', function () {
     });
   });
 
+  describe('jobList', function () {
+    it('return json object for jobList', function (done) {
+      nock('http://jenkins.org').get('/api/json').reply(200, '{}');
+      jenkins.jobList(function (err, buildResponse) {
+        assert.ifError(err);
+        assert.equal(typeof buildResponse, 'object');
+        done();
+      });
+    });
+
+    it('throws an error if jenkins returns a 404', function (done) {
+      nock('http://jenkins.org').get('/api/json').reply(404, '{}');
+      jenkins.jobList(function (err) {
+        assert(err);
+        assert.equal(err.message, 'Could not find the job list for Jenkins server: http://jenkins.org');
+        done();
+      });
+    });
+  });
+
   describe('non 200 or 404 responses', function () {
     it('throws an error if jenkins returns a 500', function (done) {
       nock('http://jenkins.org').get('/job/job/lastBuild/api/json').reply(500, '{}');
