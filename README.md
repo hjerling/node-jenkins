@@ -92,4 +92,4 @@ Trigger a build for a job.
 
 ## Thanks
 
-Thanks to [Robin Murphy](https://github.com/robinjmurphy) for basic structure of app.
+Thanks to [Robin Murphy](https://github.com/robinjmurphy) for basic structure of module.
