@@ -117,9 +117,9 @@ describe('Jenkins', function () {
   describe('jobList', function () {
     it('return json object for jobList', function (done) {
       nock('http://jenkins.org').get('/api/json').reply(200, '{}');
-      jenkins.jobList(function (err, buildResponse) {
+      jenkins.jobList(function (err, jobListResponse) {
         assert.ifError(err);
-        assert.equal(typeof buildResponse, 'object');
+        assert.equal(typeof jobListResponse, 'object');
         done();
       });
     });
@@ -129,6 +129,46 @@ describe('Jenkins', function () {
       jenkins.jobList(function (err) {
         assert(err);
         assert.equal(err.message, 'Could not find the job list for Jenkins server: http://jenkins.org');
+        done();
+      });
+    });
+  });
+
+  describe('build', function () {
+    it('return json object for build', function (done) {
+      nock('http://jenkins.org').post('/job/job/build/api/json').reply(201, '{}');
+      jenkins.build('job', function (err, buildResponse) {
+        assert.ifError(err);
+        assert.equal(typeof buildResponse, 'object');
+        done();
+      });
+    });
+
+    it('throws an error if jenkins returns a 404', function (done) {
+      nock('http://jenkins.org').post('/job/job/build/api/json').reply(404, '{}');
+      jenkins.build('job', function (err) {
+        assert(err);
+        assert.equal(err.message, 'Could not find job: job');
+        done();
+      });
+    });
+  });
+
+  describe('queue', function () {
+    it('return json object for queue', function (done) {
+      nock('http://jenkins.org').get('/queue/api/json').reply(200, '{}');
+      jenkins.queue(function (err, queueResponse) {
+        assert.ifError(err);
+        assert.equal(typeof queueResponse, 'object');
+        done();
+      });
+    });
+
+    it('throws an error if jenkins returns a 404', function (done) {
+      nock('http://jenkins.org').get('/queue/api/json').reply(404, '{}');
+      jenkins.queue(function (err) {
+        assert(err);
+        assert.equal(err.message, 'Could not find the build queue for Jenkins server: http://jenkins.org');
         done();
       });
     });
