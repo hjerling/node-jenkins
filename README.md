@@ -78,13 +78,13 @@ Get build output for a build.
 
 Trigger a build for a job.
 
-#### `.queue`
-
-Get current build queue.
-
 ##### Parameters
 
 * `job_name` _String_
+
+#### `.queue`
+
+Get current build queue.
 
 ## Contributing
 
