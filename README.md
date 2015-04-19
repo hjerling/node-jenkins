@@ -82,6 +82,15 @@ Trigger a build for a job.
 
 * `job_name` _String_
 
+#### `.stopBuild`
+
+Request to stop a build for a job.
+
+##### Parameters
+
+* `job_name` _String_
+* `build_number` _Number_
+
 #### `.queue`
 
 Get current build queue.

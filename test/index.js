@@ -154,6 +154,26 @@ describe('Jenkins', function () {
     });
   });
 
+  describe('stopBuild', function () {
+    it('return json object for stopBuild', function (done) {
+      nock('http://jenkins.org').post('/job/job/1/stop').reply(200, '{}');
+      jenkins.stopBuild('job', 1, function (err, stopResponse) {
+        assert.ifError(err);
+        assert.equal(typeof stopResponse, 'object');
+        done();
+      });
+    });
+
+    it('throws an error if jenkins returns a 404', function (done) {
+      nock('http://jenkins.org').post('/job/job/2/stop').reply(404, '{}');
+      jenkins.stopBuild('job', 2, function (err) {
+        assert(err);
+        assert.equal(err.message, 'Could not find build #2 for job: job');
+        done();
+      });
+    });
+  });
+
   describe('queue', function () {
     it('return json object for queue', function (done) {
       nock('http://jenkins.org').get('/queue/api/json').reply(200, '{}');
